@@ -3,10 +3,14 @@ class Solution:
         if x < 0:
             return False
         
-        numtoString = str(x)
-        reverseNum = int(numtoString[::-1])
+        originalNum = x
+        reversedNum = 0
+
+        while (x!=0):
+            reversedNum = (reversedNum*10) + (x%10)
+            x = x // 10
         
-        if reverseNum == x:
+        if reversedNum == originalNum:
             return True
         else:
             return False
