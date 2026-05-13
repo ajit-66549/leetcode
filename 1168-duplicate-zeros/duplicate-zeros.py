@@ -3,12 +3,20 @@ class Solution:
         """
         Do not return anything, modify arr in-place instead.
         """
-        i = 0
-        while i < len(arr) - 1:
+        # solving by two pointer technique (TC:O(n) and SC:O(1))
+        n = len(arr)
+        zeros = arr.count(0)
+
+        i = n - 1
+        j = n + zeros - 1
+
+        while i >=0:
+            if j < n:
+                arr[j] = arr[i]
+
             if arr[i] == 0:
-                for j in range(len(arr)-1, i+1, -1):
-                    arr[j] = arr[j-1]
-                arr[i+1] = 0
-                i=i+2
-            else:
-                i=i+1
+                j -= 1
+                if j < n:
+                    arr[j] = 0
+            i -= 1
+            j -= 1
