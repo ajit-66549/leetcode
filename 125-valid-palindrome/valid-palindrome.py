@@ -1,14 +1,20 @@
 class Solution:
     def isPalindrome(self, s: str) -> bool:
-        # Time and Space complexities: O(n)
-        new_s = "".join([letter for letter in s if letter.isalnum()]).lower()
+        # Time complexity: O(n) and Space complexity: O(1)
         start = 0
-        end = len(new_s) - 1
+        end = len(s) - 1
+
         while start < end:
-            if new_s[start] != new_s[end]:
+            if not s[start].isalnum():
+                start += 1
+                continue
+            if not s[end].isalnum():
+                end -= 1  
+                continue
+            
+            if s[start].lower() != s[end].lower():
                 return False
             else:
                 start += 1
-                end -= 1
-
+                end -= 1 
         return True
