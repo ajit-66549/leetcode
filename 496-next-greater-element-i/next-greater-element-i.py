@@ -1,16 +1,17 @@
 class Solution:
     def nextGreaterElement(self, nums1: List[int], nums2: List[int]) -> List[int]:
-        # Time complexity: O(n2) and Space complexity: O(1)
-        result = []
+        # Time and Space complexity: O(n)
+        stack = []
+        next_greater = {}
+
+        for num in nums2:
+            while stack and num > stack[-1]:
+                smaller = stack.pop()
+                next_greater[smaller] = num
+            stack.append(num)
+
+        ans = []
 
         for num in nums1:
-            position = nums2.index(num)
-            greater_element = -1
-            
-            for i in range(position+1, len(nums2)):
-                if nums2[i] > num:
-                    greater_element = nums2[i]
-                    break
-            result.append(greater_element)
-        
-        return result
+            ans.append(next_greater.get(num, -1))
+        return ans
