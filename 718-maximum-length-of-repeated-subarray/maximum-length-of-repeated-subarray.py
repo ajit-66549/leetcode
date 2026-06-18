@@ -1,6 +1,6 @@
 class Solution:
     def findLength(self, nums1: List[int], nums2: List[int]) -> int:
-        # Time and complexity: O(m*n)
+        # Time and Space complexity: O(m*n)
         m, n = len(nums1), len(nums2)
 
         dp = [[0] * (n+1) for _ in range(m+1)]
