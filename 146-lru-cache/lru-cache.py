@@ -1,3 +1,4 @@
+# Time complexity: O(1) and Space complexity: O(n)
 class LRUCache:
     class Node:
         def __init__(self, key=0, value=0):
