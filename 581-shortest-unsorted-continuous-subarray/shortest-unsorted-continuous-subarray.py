@@ -1,25 +1,20 @@
 class Solution:
     def findUnsortedSubarray(self, nums: List[int]) -> int:
-        # Time complexity: O(n) and Space complexity: O(1)
-        if len(nums) == 1:
-            return 0
-
-        left = len(nums) - 1
+        # Time and Space complexity: O(n)
+        stack = []
+        left = len(nums)
         right = -1
-        max_so_far = -inf
 
         for i in range(len(nums)):
-            if nums[i] >= max_so_far:
-                max_so_far = nums[i]
-            else:
-                right = i
+            while stack and nums[i] < nums[stack[-1]]:
+                left = min(left, stack.pop())
+            stack.append(i)
 
-        min_so_far = inf
+        stack = []
         for j in range(len(nums)-1, -1, -1):
-            if nums[j] <= min_so_far:
-                min_so_far = nums[j]
-            else:
-                left = j
+            while stack and nums[j] > nums[stack[-1]]:
+                right = max(right, stack.pop())
+            stack.append(j)
 
         if right == -1:
             return 0
