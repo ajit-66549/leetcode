@@ -1,14 +1,12 @@
 class Solution:
     def climbStairs(self, n: int, costs: List[int]) -> int:
-        # Time and Space compelxity: O(n)
-        dp = [float("inf")] * (n+1)
-        dp[0] = 0
-        for i in range(1, n+1):
-            for jump in range(1, 4):
-                previous = i - jump
-                
-                if previous >= 0:
-                    candidate = dp[previous] + costs[i - 1] + jump**2
-                    dp[i] =min(dp[i], candidate)
+        # Time complexity: O(n) and Space complexity: O(1)
+        one_back = 0
+        two_back = float("inf")
+        three_back = float("inf")
 
-        return dp[n]
+        for i in range(1, n+1):
+            current = costs[i-1] + min(one_back + 1, two_back + 4, three_back + 9)
+            three_back, two_back, one_back = two_back, one_back, current
+
+        return one_back
