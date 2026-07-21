@@ -1,23 +1,22 @@
 class Solution:
     def minPathSum(self, grid: List[List[int]]) -> int:
-        # Time and Space complexity: O(rows * columns)
+        # Time complexity: O(rows * columns) and Space complexity: O(columns)
         rows = len(grid)
         columns = len(grid[0])
 
-        dp = [[0] * columns for _ in range(rows)]
-        dp[0][0] = grid[0][0]
+        dp = [0] * columns
+        dp[0] = grid[0][0]
 
-        # first row
+        # first row 
         for column in range(1, columns):
-            dp[0][column] = grid[0][column] + dp[0][column-1]
+            dp[column] = dp[column-1] + grid[0][column]
 
-        # first columns
         for row in range(1, rows):
-            dp[row][0] = grid[row][0] + dp[row-1][0]
+            for column in range(columns):
+                if column == 0:
+                    dp[column] = dp[column] + grid[row][column]
+                    continue
 
-        # remaining cells
-        for row in range(1, rows):
-            for column in range(1, columns):
-                dp[row][column] = grid[row][column] + min(dp[row-1][column], dp[row][column-1])
+                dp[column] = grid[row][column] + min(dp[column], dp[column-1])
 
-        return dp[rows-1][columns-1]
+        return dp[-1]
