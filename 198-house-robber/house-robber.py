@@ -1,14 +1,14 @@
 class Solution:
     def rob(self, nums: List[int]) -> int:
-        # Time and Space complexity: O(n)
+        # Time complexity: O(n) and Space complexity: O(1)
         if len(nums) < 3:
             return max(nums)
 
-        dp = [0] * len(nums)
-        dp[0] = nums[0]
-        dp[1] = max(nums[0], nums[1])
+        previousOne = previousTwo = 0
 
-        for i in range(2, len(nums)):
-            dp[i] = max(dp[i-1], dp[i-2]+nums[i])
+        for money in nums:
+            current = max(previousOne, money + previousTwo)
+            previousTwo = previousOne
+            previousOne = current
 
-        return dp[-1]
+        return previousOne
