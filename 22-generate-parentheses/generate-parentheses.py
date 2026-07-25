@@ -1,17 +1,17 @@
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
-        result = []
+        # Time and Space complexity: O(nCn​)
+        dp = [[] for _ in range(n+1)]
+        dp[0] = [""]
 
-        def generate(current_parentheses, open_count, close_count):
-            if open_count == n and close_count == n:
-                result.append(current_parentheses)
-                return
+        for i in range(1, n+1):
+            for inside_pairs in range(i):
+                remaining_pairs = i - 1 - inside_pairs
 
-            if open_count < n:
-                generate(current_parentheses + "(", open_count + 1, close_count)
-            
-            if close_count < open_count:
-                generate(current_parentheses + ")", open_count, close_count + 1)
+                for inside_string in dp[inside_pairs]:
+                    for remaining_string in dp[remaining_pairs]:
+                        new_string = ("(" + inside_string + ")" + remaining_string)
 
-        generate("", 0, 0)
-        return result
+                        dp[i].append(new_string)
+
+        return dp[n]
