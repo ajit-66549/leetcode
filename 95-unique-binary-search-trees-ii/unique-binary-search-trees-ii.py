@@ -1,0 +1,29 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def generateTrees(self, n: int) -> List[Optional[TreeNode]]:
+        # Time and Space complexity: O(n Cn)
+        def generate(start, end):
+            if start > end:
+                return [None]
+
+            result = []
+            for root_node in range(start, end+1):
+                left_trees = generate(start, root_node - 1)
+                right_trees = generate(root_node + 1, end)
+
+                for left_tree in left_trees:
+                    for right_tree in right_trees:
+                        root = TreeNode(root_node)
+                        root.left = left_tree
+                        root.right = right_tree
+
+                        result.append(root)
+            
+            return result
+
+        return generate(1, n)
