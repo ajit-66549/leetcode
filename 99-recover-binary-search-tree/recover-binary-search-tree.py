@@ -6,29 +6,46 @@
 #         self.right = right
 class Solution:
     def recoverTree(self, root: Optional[TreeNode]) -> None:
-        # Time and Space complexity: O(n)
+        # Time complexity: O(n) and Space complexity: O(1)
         """
         Do not return anything, modify root in-place instead.
         """
         previous = first = second = None
 
-        def inorder(node):
-            if not node:
-                return 
-            
-            nonlocal previous, first, second
+        current = root
+        
+        while current:
+            # no left subtree, process current and move right
+            if not current.left:
+                if previous and previous.val > current.val:
+                    if first is None:
+                        first = previous
+                    second = current
 
-            inorder(node.left)
+                previous = current
+                current = current.right
 
-            if previous and previous.val > node.val:
-                if first is None:
-                    first = previous
-                
-                second = node
-            previous = node
+            # has left subtree
+            else:
+                predecessor = current.left
 
-            inorder(node.right)
+                while predecessor.right and predecessor.right is not current:
+                    predecessor = predecessor.right
 
-        inorder(root)
+                if predecessor.right is None:
+                    predecessor.right = current
+                    current = current.left
 
-        first.val, second.val = second.val, first.val
+                else:
+                    predecessor.right = None
+
+                    if previous and previous.val > current.val:
+                        if first is None:
+                            first = previous
+                        second = current
+
+                    previous = current
+                    current = current.right
+
+        if first and second:
+            first.val, second.val = second.val, first.val
