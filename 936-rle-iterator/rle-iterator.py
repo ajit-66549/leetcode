@@ -2,20 +2,20 @@ class RLEIterator:
     # Time complexity: O(n) and Space complexity: O(1)
     def __init__(self, encoding: List[int]):
         self.encoding = encoding
+        self.index = 0
 
     def next(self, n: int) -> int:
-        for i in range(0, len(self.encoding)-1, 2):
-            count = self.encoding[i]
-            if count == 0:
-                continue
-            
+        while self.index < len(self.encoding)-1:
+            count = self.encoding[self.index]
+
             if count >= n:
-                self.encoding[i] = count - n
-                return self.encoding[i+1]
+                self.encoding[self.index] -= n
+                return self.encoding[self.index+1]
             else:
-                n = n - count
-                self.encoding[i] = 0
-        
+                n -= count
+                self.encoding[self.index] = 0
+                self.index += 2
+
         return -1
     
 # Your RLEIterator object will be instantiated and called as such:
